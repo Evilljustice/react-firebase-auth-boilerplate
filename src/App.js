@@ -3,6 +3,7 @@ import Register from "./components/auth/register";
 
 import Header from "./components/header";
 import Home from "./components/home";
+import PasswordReset from './components/auth/reset/PasswordReset'; // Ajusta la ruta según tu estructura de archivos
 
 import { AuthProvider } from "./contexts/authContext";
 import { useRoutes } from "react-router-dom";
@@ -25,6 +26,10 @@ function App() {
       path: "/home",
       element: <Home />,
     },
+    {
+      path: "/reset-password",
+      element: <PasswordReset />,
+    }
   ];
   let routesElement = useRoutes(routesArray);
   return (

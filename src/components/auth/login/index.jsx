@@ -12,23 +12,38 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState('')
 
     const onSubmit = async (e) => {
-        e.preventDefault()
-        if(!isSigningIn) {
-            setIsSigningIn(true)
-            await doSignInWithEmailAndPassword(email, password)
-            // doSendEmailVerification()
-        }
-    }
-
-    const onGoogleSignIn = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         if (!isSigningIn) {
-            setIsSigningIn(true)
-            doSignInWithGoogle().catch(err => {
-                setIsSigningIn(false)
-            })
+            setIsSigningIn(true);
+            setErrorMessage(''); // Limpiar cualquier error previo
+            try {
+                await doSignInWithEmailAndPassword(email, password);
+                // Redirigir al usuario a la página de inicio o dashboard
+            } catch (error) {
+                if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+                    setErrorMessage("Usuario o contraseña incorrectos.");
+                } else {
+                    setErrorMessage("Error al iniciar sesión. Por favor, inténtelo de nuevo.");
+                }
+                setIsSigningIn(false);
+            }
         }
-    }
+    };
+
+    const onGoogleSignIn = async (e) => {
+        e.preventDefault();
+        if (!isSigningIn) {
+            setIsSigningIn(true);
+            setErrorMessage(''); // Limpiar cualquier error previo
+            try {
+                await doSignInWithGoogle();
+                // Redirigir al usuario a la página de inicio o dashboard
+            } catch (error) {
+                setErrorMessage("Error al iniciar sesión con Google. Por favor, inténtelo de nuevo.");
+                setIsSigningIn(false);
+            }
+        }
+    };
 
     return (
         <div>
@@ -85,6 +100,7 @@ const Login = () => {
                         </button>
                     </form>
                     <p className="text-center text-sm">Don't have an account? <Link to={'/register'} className="hover:underline font-bold">Sign up</Link></p>
+                    <p className="text-center text-sm">Forgot your password? <Link to={'/reset-password'} className="hover:underline font-bold">Reset password</Link></p>
                     <div className='flex flex-row text-center w-full'>
                         <div className='border-b-2 mb-2.5 mr-2 w-full'></div><div className='text-sm font-bold w-fit'>OR</div><div className='border-b-2 mb-2.5 ml-2 w-full'></div>
                     </div>
