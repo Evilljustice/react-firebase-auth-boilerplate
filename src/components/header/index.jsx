@@ -1,29 +1,23 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../../contexts/authContext'
-import { doSignOut } from '../../firebase/auth'
+import React from 'react';
 
 const Header = () => {
-    const navigate = useNavigate()
-    const { userLoggedIn } = useAuth()
     return (
-        <nav className='flex flex-row gap-x-2 w-full z-20 fixed top-0 left-0 h-12 border-b place-content-center items-center bg-gray-200'>
-            {
-                userLoggedIn
-                    ?
-                    <>
-                        <button onClick={() => { doSignOut().then(() => { navigate('/login') }) }} className='text-sm text-blue-600 underline'>Logout</button>
-                    </>
-                    :
-                    <>
-                        <Link className='text-sm text-blue-600 underline' to={'/login'}>Login</Link>
-                        <Link className='text-sm text-blue-600 underline' to={'/register'}>Register New Account</Link>
-                        <Link className='text-sm text-blue-600 underline' to={'/reset-password'}>Reset Password</Link>
-                    </>
-            }
+        <header className="bg-custom-blue text-white p-4">
+            <div className="flex items-center">
+                <img
+                    className="w-20 h-20 rounded-lg"
+                    src="./assets/icons/apple-touch-icon.png"
+                    alt="App Icon"
+                />
+                <div className="ml-4">
+                    <h2 className="text-2xl font-bold">Personalized Learning USabana App</h2>
+                </div>
+            </div>
+            <div className="mt-2">
+                <h3 className="text-lg">Autenticarse</h3>
+            </div>
+        </header>
+    );
+};
 
-        </nav>
-    )
-}
-
-export default Header
+export default Header;
